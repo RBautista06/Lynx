@@ -1,4 +1,6 @@
-export const checkUserValidationSchema = {
+import { checkSchema } from "express-validator";
+
+export const checkUserValidationSchema = checkSchema({
   fullName: {
     isLength: {
       options: { min: 10, max: 50 },
@@ -66,4 +68,30 @@ export const checkUserValidationSchema = {
     },
     trim: true,
   },
-};
+});
+export const loginValidationSchema = checkSchema({
+  email: {
+    notEmpty: {
+      errorMessage: "Email cannot be empty",
+    },
+    isEmail: {
+      errorMessage: "Please enter a valid email address",
+    },
+    normalizeEmail: true,
+    custom: {
+      options: (value) => {
+        return !/<[^>]*>?/gm.test(value);
+      },
+      errorMessage: "Email cannot contain symbols or code",
+    },
+  },
+  password: {
+    notEmpty: {
+      errorMessage: "Password cannot be empty",
+    },
+    isString: {
+      errorMessage: "Password must be a string",
+    },
+    trim: true,
+  },
+});
