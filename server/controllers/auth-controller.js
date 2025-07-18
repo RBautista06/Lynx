@@ -1,13 +1,14 @@
 import { matchedData, validationResult } from "express-validator";
 import { User } from "../model/user.js";
 import { comparePassword, hashPassword } from "../utils/hashPass.js";
+import { generateJWTTOKEN } from "../utils/generateJWTToken.js";
 
 export const signup = async (req, res) => {
   const result = validationResult(req);
   // if the result is not empty
   if (!result.isEmpty()) {
     const errorMessage = result.array().map((err) => err.msg);
-    return res.status(400).json({ message: errorMessage });
+    return res.status(400).json({ success: false, message: errorMessage });
   }
   const data = matchedData(req);
   const { fullName, username } = data;
@@ -18,12 +19,14 @@ export const signup = async (req, res) => {
   const emailAlreadyExist = await User.findOne({ email });
 
   if (usernameAlreadyExist) {
-    return res
-      .status(400)
-      .json({ message: "Username already exist. Please choose another one" });
+    return res.status(400).json({
+      success: false,
+      message: "Username already exist. Please choose another one",
+    });
   }
   if (emailAlreadyExist) {
     return res.status(400).json({
+      success: false,
       message: "Email is already registered. Please use a different one",
     });
   }
@@ -35,8 +38,8 @@ export const signup = async (req, res) => {
       email: email,
       password: hashedPassword,
     });
-
     await user.save();
+    generateJWTTOKEN(res, user._id);
     return res.status(201).json({
       success: true,
       message: "Signed up successfully",
@@ -44,7 +47,9 @@ export const signup = async (req, res) => {
     });
   } catch (error) {
     console.log("Error saving new User: ", error);
-    return res.status(400).json({ msg: "Error Signing up" });
+    return res
+      .status(400)
+      .json({ success: false, message: "Error Signing up" });
   }
 };
 
@@ -53,21 +58,49 @@ export const login = async (req, res) => {
   // if the result is not empty
   if (!result.isEmpty()) {
     const errorMessage = result.array().map((err) => err.msg);
-    return res.status(400).json({ message: errorMessage });
+    return res.status(400).json({ success: false, message: errorMessage });
   }
   const data = matchedData(req);
   const { email, password } = data;
   try {
     const user = await User.findOne({ email });
-    if (!user) return res.status(400).json({ message: "Invalid Credentials" });
+    if (!user)
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid Credentials" });
     const isPasswordCorrect = await comparePassword(password, user.password);
     if (!isPasswordCorrect)
-      return res.status(400).json({ message: "Invalid Credentials" });
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid Credentials" });
+
     return res
       .status(200)
-      .json({ message: "Logged in successfully", user: user });
+      .json({ success: true, message: "Logged in successfully", user: user });
   } catch (error) {
     console.log("Error Loging In", error);
-    return res.status(400).json({ message: "Log in failed" });
+    return res.status(400).json({ success: false, message: "Log in failed" });
+  }
+};
+export const logout = (req, res) => {
+  res.clearCookie("token");
+  res.status(200).json({ success: true, message: "Logout Successfully" });
+};
+export const checkAuth = async (req, res) => {
+  try {
+    const user = await User.findById(req.userId);
+    if (!user) {
+      return res
+        .status(400)
+        .json({ success: false, message: "User not found" });
+    }
+    return res.status(200).json({
+      success: true,
+      message: "Authorized",
+      user: { ...user._doc, password: undefined },
+    });
+  } catch (error) {
+    console.log("error checking auth", error);
+    res.status(400).send({ success: false, message: error.message });
   }
 };
