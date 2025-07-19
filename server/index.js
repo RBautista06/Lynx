@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import authRoutes from "./routes/auth.route.js";
+import messageRoutes from "./routes/message.route.js";
 import { dbConnection } from "./lib/db.js";
 
 dotenv.config();
@@ -15,7 +16,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/auth", authRoutes);
-
+app.use("/api/messages", messageRoutes);
 dbConnection();
 const PORT = process.env.PORT;
 app.listen(PORT, () => {

@@ -9,12 +9,12 @@ import {
   checkUserValidationSchema,
   loginValidationSchema,
 } from "../utils/validationSchema.js";
-import { verifyToken } from "../middleware/verifyToken.js";
+import { protectRoute } from "../middleware/protectRoute.js";
 
 const router = express.Router();
 
 router.post("/signup", checkUserValidationSchema, signup);
 router.post("/login", loginValidationSchema, login);
 router.post("/logout", logout);
-router.get("/check-auth", verifyToken, checkAuth);
+router.get("/check-auth", protectRoute, checkAuth);
 export default router;

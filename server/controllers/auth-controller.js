@@ -1,7 +1,8 @@
 import { matchedData, validationResult } from "express-validator";
-import { User } from "../model/user.js";
+
 import { comparePassword, hashPassword } from "../utils/hashPass.js";
 import { generateJWTTOKEN } from "../utils/generateJWTToken.js";
+import { User } from "../model/user.model.js";
 
 export const signup = async (req, res) => {
   const result = validationResult(req);
@@ -88,16 +89,12 @@ export const logout = (req, res) => {
 };
 export const checkAuth = async (req, res) => {
   try {
-    const user = await User.findById(req.userId);
-    if (!user) {
-      return res
-        .status(400)
-        .json({ success: false, message: "User not found" });
-    }
+    const user = req.userId;
+    if (!user)
+      return res.status(409).json({ success: false, message: "No user" });
     return res.status(200).json({
       success: true,
-      message: "Authorized",
-      user: { ...user._doc, password: undefined },
+      message: "Check Auth Status: Authorized",
     });
   } catch (error) {
     console.log("error checking auth", error);

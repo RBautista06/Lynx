@@ -1,5 +1,13 @@
+import HeroSection from "./component/HeroSection";
+import SignupPage from "./pages/SignupPage";
+
 const App = () => {
-  return <div>app</div>;
+  return (
+    <div>
+      <SignupPage />
+      <HeroSection/>
+    </div>
+  );
 };
 
 export default App;
