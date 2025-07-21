@@ -1,0 +1,15 @@
+.container {
+  perspective: 1000px;
+}
+.phone-container {
+  transform: rotateY(-10deg) rotateX(5deg);
+}
+.phone {
+  /* transform: rotateY(-10deg) rotateX(5deg); */
+  transform-style: preserve-3d;
+  position: relative;
+}
+.perspective-phone {
+  /* transform: rotateY(-20deg) rotateX(5deg); */
+  transform-style: preserve-3d;
+}

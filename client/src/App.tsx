@@ -21,7 +21,7 @@ const router = createBrowserRouter([
 const App = () => {
   return (
     <div className="flex items-center justify-center">
-      <div className="border h-screen w-6xl">
+      <div className="h-screen w-full">
         <RouterProvider router={router} />
       </div>
     </div>
