@@ -1,4 +1,4 @@
-import { Eye, EyeOff, Lock, Mail, User } from "lucide-react";
+import { Eye, EyeOff, Lock,  User } from "lucide-react";
 import { BsGoogle } from "react-icons/bs";
 import { useState } from "react";
 import { Link } from "react-router-dom";

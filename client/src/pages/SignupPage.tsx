@@ -1,10 +1,34 @@
-import { Eye, EyeOff, Lock, Mail, User } from "lucide-react";
+import { Eye, EyeOff, Loader2, Lock, Mail, User } from "lucide-react";
 import { BsGoogle } from "react-icons/bs";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import PhoneMockup from "../component/PhoneMockUp";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch } from "../store/store";
+import { signup, userAuth } from "../store/storeSlice/authSlice";
+
 const SignupPage = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const { user, isLoading, error } = useSelector(userAuth);
+
+  const [formData, setFormData] = useState({
+    fullName: "",
+    username: "",
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    dispatch(signup(formData));
+  };
+
   const [showPassword, setShowPassword] = useState(false);
+
   return (
     <div className="w-4xl mx-auto my-auto h-full flex">
       <div className="flex flex-col gap-5  flex-1/2 justify-center h-full">
@@ -46,7 +70,12 @@ const SignupPage = () => {
             </div>
 
             <div className="px-5 rounded-xl ">
-              <form className="space-y-2">
+              {error && (
+                <p className="text-red-500 text-sm font-medium text-center">
+                  {error}
+                </p>
+              )}
+              <form className="space-y-2" onSubmit={handleSubmit}>
                 {/* Full Name */}
                 <div className="space-y-2">
                   <label className="text-sm font-['GeneralSans-Medium'] leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
@@ -57,6 +86,9 @@ const SignupPage = () => {
                       <User className="h-4 w-4 text-muted-foreground" />
                     </div>
                     <input
+                      name="fullName"
+                      onChange={handleChange}
+                      required
                       type="text"
                       placeholder="Enter your full name"
                       className="font-['GeneralSans-Regular'] flex h-10 w-full rounded-md border border-input bg-background pl-10 pr-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
@@ -74,6 +106,9 @@ const SignupPage = () => {
                       <User className="h-4 w-4 text-muted-foreground" />
                     </div>
                     <input
+                      name="username"
+                      onChange={handleChange}
+                      required
                       type="text"
                       placeholder="Choose a username"
                       className="font-['GeneralSans-Regular'] flex h-10 w-full rounded-md border border-input bg-background pl-10 pr-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
@@ -91,6 +126,9 @@ const SignupPage = () => {
                       <Mail className="h-4 w-4 text-muted-foreground" />
                     </div>
                     <input
+                      name="email"
+                      onChange={handleChange}
+                      required
                       type="email"
                       placeholder="Enter your email"
                       className="font-['GeneralSans-Regular'] flex h-10 w-full rounded-md border border-input bg-background pl-10 pr-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
@@ -108,13 +146,12 @@ const SignupPage = () => {
                       <Lock className="h-4 w-4 text-muted-foreground" />
                     </div>
                     <input
+                      name="password"
+                      onChange={handleChange}
+                      required
                       type={showPassword ? "text" : "password"}
                       placeholder="Create a password"
                       className="flex h-10 w-full rounded-md border border-input bg-background pl-10 pr-10 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                      // value={formData.password}
-                      // onChange={(e) =>
-                      //   setFormData({ ...formData, password: e.target.value })
-                      // }
                     />
                     <button
                       type="button"
@@ -153,17 +190,16 @@ const SignupPage = () => {
                 </div>
                 <button
                   type="submit"
-                  // disabled={isSigningUp}
+                  disabled={isLoading}
                   className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full">
-                  {/* {isSigningUp ? (
-                <>
-                  <Loader2 className="animate-spin size-5 mr-2" />
-                  Creating Account...
-                </>
-              ) : (
-                "Create Account"
-              )} */}
-                  Create Account
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="animate-spin size-5 mr-2" />
+                      Creating Account...
+                    </>
+                  ) : (
+                    "Create Account"
+                  )}
                 </button>
               </form>
             </div>

@@ -53,7 +53,6 @@ export const signup = async (req, res) => {
       .json({ success: false, message: "Error Signing up" });
   }
 };
-
 export const login = async (req, res) => {
   const result = validationResult(req);
   if (!result.isEmpty()) {
@@ -91,6 +90,7 @@ export const login = async (req, res) => {
     return res.status(400).json({ success: false, message: "Log in failed" });
   }
 };
+
 
 export const logout = (req, res) => {
   res.clearCookie("token");
