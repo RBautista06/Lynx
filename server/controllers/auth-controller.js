@@ -56,33 +56,42 @@ export const signup = async (req, res) => {
 
 export const login = async (req, res) => {
   const result = validationResult(req);
-  // if the result is not empty
   if (!result.isEmpty()) {
     const errorMessage = result.array().map((err) => err.msg);
     return res.status(400).json({ success: false, message: errorMessage });
   }
+
   const data = matchedData(req);
-  const { email, password } = data;
+  const { emailOrUsername, password } = data;
+
   try {
-    const user = await User.findOne({ email });
+    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailOrUsername);
+    const user = await User.findOne(
+      isEmail ? { email: emailOrUsername } : { username: emailOrUsername }
+    );
+
     if (!user)
       return res
         .status(400)
         .json({ success: false, message: "Invalid Credentials" });
+
     const isPasswordCorrect = await comparePassword(password, user.password);
     if (!isPasswordCorrect)
       return res
         .status(400)
         .json({ success: false, message: "Invalid Credentials" });
 
-    return res
-      .status(200)
-      .json({ success: true, message: "Logged in successfully", user: user });
+    return res.status(200).json({
+      success: true,
+      message: "Logged in successfully",
+      user,
+    });
   } catch (error) {
-    console.log("Error Loging In", error);
+    console.log("Error Logging In", error);
     return res.status(400).json({ success: false, message: "Log in failed" });
   }
 };
+
 export const logout = (req, res) => {
   res.clearCookie("token");
   res.status(200).json({ success: true, message: "Logout Successfully" });

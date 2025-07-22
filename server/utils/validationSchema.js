@@ -70,19 +70,20 @@ export const checkUserValidationSchema = checkSchema({
   },
 });
 export const loginValidationSchema = checkSchema({
-  email: {
+  emailOrUsername: {
     notEmpty: {
-      errorMessage: "Email cannot be empty",
+      errorMessage: "Email or username cannot be empty",
     },
-    isEmail: {
-      errorMessage: "Please enter a valid email address",
+    isString: {
+      errorMessage: "Email or username must be a string",
     },
-    normalizeEmail: true,
+    trim: true,
     custom: {
       options: (value) => {
+        // disallow HTML or code-like symbols
         return !/<[^>]*>?/gm.test(value);
       },
-      errorMessage: "Email cannot contain symbols or code",
+      errorMessage: "Invalid characters in email or username",
     },
   },
   password: {

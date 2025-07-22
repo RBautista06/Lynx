@@ -39,7 +39,7 @@ const SignupPage = () => {
               </button>
             </div>
 
-            <div className="flex items-center gap-4 text-sm text-muted-foreground px-5 ">
+            <div className="flex items-center gap-4 text-sm text-muted-foreground px-5 opacity-50">
               <div className="flex-grow border-t border-border" />
               <span className="font-['GeneralSans-regular']">OR</span>
               <div className="flex-grow border-t border-border" />
