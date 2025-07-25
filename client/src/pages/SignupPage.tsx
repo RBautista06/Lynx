@@ -9,7 +9,7 @@ import { signup, userAuth } from "../store/storeSlice/authSlice";
 
 const SignupPage = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { user, isLoading, error } = useSelector(userAuth);
+  const { isLoading, error } = useSelector(userAuth);
 
   const [formData, setFormData] = useState({
     fullName: "",

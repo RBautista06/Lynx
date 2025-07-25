@@ -8,8 +8,8 @@ import type { AppDispatch } from "../store/store";
 import { login, userAuth } from "../store/storeSlice/authSlice";
 
 const LoginPage = () => {
-  const dispatch = useDispatch<AppDispatch>;
-  const { user, isLoading, error } = useSelector(userAuth);
+  const dispatch = useDispatch<AppDispatch>();
+  const { isLoading, error } = useSelector(userAuth);
 
   const [formData, setFormData] = useState({
     emailOrUsername: "",
@@ -51,6 +51,12 @@ const LoginPage = () => {
             </div>
           </div>
           <div className="flex flex-col gap-5 mt-8">
+            {error && (
+              <p className="text-red-500 text-sm font-medium text-center">
+                {" "}
+                {error}
+              </p>
+            )}
             <div className="px-5 rounded-xl ">
               <form className="space-y-2" onSubmit={handleSubmit}>
                 {/* Email */}
