@@ -47,6 +47,20 @@ export const signup = createAsyncThunk(
   }
 );
 
+export const login = createAsyncThunk(
+  "auth/login",
+  async(
+    user: {
+      emailOrusername: string,
+      pasword: string
+    },{
+      rejectWithValue
+    }
+  ) => {
+    
+  }
+)
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
