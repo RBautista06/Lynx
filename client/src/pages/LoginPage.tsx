@@ -1,10 +1,30 @@
-import { Eye, EyeOff, Lock,  User } from "lucide-react";
+import { Eye, EyeOff, Loader2, Lock, User } from "lucide-react";
 import { BsGoogle } from "react-icons/bs";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import PhoneMockup from "../component/PhoneMockUp";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch } from "../store/store";
+import { login, userAuth } from "../store/storeSlice/authSlice";
 
 const LoginPage = () => {
+  const dispatch = useDispatch<AppDispatch>;
+  const { user, isLoading, error } = useSelector(userAuth);
+
+  const [formData, setFormData] = useState({
+    emailOrUsername: "",
+    password: "",
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    dispatch(login(formData));
+  };
+
   const [showPassword, setShowPassword] = useState(false);
   return (
     <div className="w-4xl mx-auto my-auto h-full flex">
@@ -32,7 +52,7 @@ const LoginPage = () => {
           </div>
           <div className="flex flex-col gap-5 mt-8">
             <div className="px-5 rounded-xl ">
-              <form className="space-y-2">
+              <form className="space-y-2" onSubmit={handleSubmit}>
                 {/* Email */}
                 <div className="space-y-2">
                   <label className="text-sm font-['GeneralSans-Medium'] leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
@@ -43,6 +63,8 @@ const LoginPage = () => {
                       <User className="h-4 w-4 text-muted-foreground" />
                     </div>
                     <input
+                      onChange={handleChange}
+                      name="emailOrUsername"
                       type="email"
                       placeholder="Enter your email"
                       className="font-['GeneralSans-Regular'] flex h-10 w-full rounded-md border border-input bg-background pl-10 pr-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
@@ -60,6 +82,8 @@ const LoginPage = () => {
                       <Lock className="h-4 w-4 text-muted-foreground" />
                     </div>
                     <input
+                      onChange={handleChange}
+                      name="password"
                       type={showPassword ? "text" : "password"}
                       placeholder="Create a password"
                       className="flex h-10 w-full rounded-md border border-input bg-background pl-10 pr-10 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
@@ -84,15 +108,14 @@ const LoginPage = () => {
                   type="submit"
                   // disabled={isSigningUp}
                   className="mt-5 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full">
-                  {/* {isSigningUp ? (
-                <>
-                  <Loader2 className="animate-spin size-5 mr-2" />
-                  Creating Account...
-                </>
-              ) : (
-                "Create Account"
-              )} */}
-                  Log in
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="animate-spin size-5 mr-2" />
+                      Logging in...
+                    </>
+                  ) : (
+                    "Log in"
+                  )}
                 </button>
               </form>
 

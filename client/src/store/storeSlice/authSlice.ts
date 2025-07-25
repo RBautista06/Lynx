@@ -49,17 +49,25 @@ export const signup = createAsyncThunk(
 
 export const login = createAsyncThunk(
   "auth/login",
-  async(
-    user: {
-      emailOrusername: string,
-      pasword: string
-    },{
-      rejectWithValue
-    }
+  async (
+    credentials: {
+      emailOrUsername: string;
+      password: string;
+    },
+    { rejectWithValue }
   ) => {
-    
+    try {
+      const res = await axiosInstance.post("/auth/login", credentials);
+      const user = res.data.user;
+      return user;
+    } catch (err: any) {
+      const msg = Array.isArray(err.response?.data?.message)
+        ? err.response.data.message.join(", ")
+        : err.response?.data?.message || "Login failed";
+      return rejectWithValue(msg);
+    }
   }
-)
+);
 
 const authSlice = createSlice({
   name: "auth",
@@ -67,6 +75,7 @@ const authSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      // signup
       .addCase(signup.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -76,6 +85,19 @@ const authSlice = createSlice({
         state.isLoading = false;
       })
       .addCase(signup.rejected, (state, action) => {
+        state.error = action.payload as string;
+        state.isLoading = false;
+      })
+      // login
+      .addCase(login.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(login.fulfilled, (state, action) => {
+        state.user = action.payload;
+        state.isLoading = false;
+      })
+      .addCase(login.rejected, (state, action) => {
         state.error = action.payload as string;
         state.isLoading = false;
       });
