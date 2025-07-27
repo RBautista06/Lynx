@@ -80,6 +80,7 @@ export const login = async (req, res) => {
         .status(400)
         .json({ success: false, message: "Invalid Credentials" });
 
+    generateJWTTOKEN(res, user._id);
     return res.status(200).json({
       success: true,
       message: "Logged in successfully",
@@ -91,19 +92,27 @@ export const login = async (req, res) => {
   }
 };
 
-
 export const logout = (req, res) => {
   res.clearCookie("token");
   res.status(200).json({ success: true, message: "Logout Successfully" });
 };
+
 export const checkAuth = async (req, res) => {
   try {
-    const user = req.userId;
-    if (!user)
+    const userId = req.userId;
+    if (!userId) {
       return res.status(409).json({ success: false, message: "No user" });
+    }
+    const user = await User.findById(userId).select("-password"); // exclude password
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
     return res.status(200).json({
       success: true,
       message: "Check Auth Status: Authorized",
+      user, // ✅ send full user object
     });
   } catch (error) {
     console.log("error checking auth", error);

@@ -69,6 +69,22 @@ export const login = createAsyncThunk(
   }
 );
 
+export const checkAuth = createAsyncThunk(
+  "auth/check-auth",
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = await axiosInstance.get("auth/check-auth");
+      const user = res.data.user;
+      return user;
+    } catch (err: any) {
+      const msg = Array.isArray(err.response?.data?.message)
+        ? err.response.data.message.join(", ")
+        : err.response?.data?.message || "Auth Check failed";
+      return rejectWithValue(msg);
+    }
+  }
+);
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -98,6 +114,20 @@ const authSlice = createSlice({
         state.isLoading = false;
       })
       .addCase(login.rejected, (state, action) => {
+        state.error = action.payload as string;
+        state.isLoading = false;
+      })
+      //checkauth
+      .addCase(checkAuth.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(checkAuth.fulfilled, (state, action) => {
+        state.user = action.payload;
+        state.isLoading = false;
+      })
+      .addCase(checkAuth.rejected, (state, action) => {
+        state.user = null;
         state.error = action.payload as string;
         state.isLoading = false;
       });

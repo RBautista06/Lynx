@@ -6,9 +6,10 @@ import PhoneMockup from "../component/PhoneMockUp";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch } from "../store/store";
 import { login, userAuth } from "../store/storeSlice/authSlice";
-
+import { useNavigate } from "react-router-dom";
 const LoginPage = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
   const { isLoading, error } = useSelector(userAuth);
 
   const [formData, setFormData] = useState({
@@ -20,9 +21,14 @@ const LoginPage = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(login(formData));
+    const resultAction = await dispatch(login(formData));
+
+    if (login.fulfilled.match(resultAction)) {
+      setFormData({ emailOrUsername: "", password: "" });
+      navigate("/"); // ✅ redirect
+    }
   };
 
   const [showPassword, setShowPassword] = useState(false);
@@ -71,8 +77,8 @@ const LoginPage = () => {
                     <input
                       onChange={handleChange}
                       name="emailOrUsername"
-                      type="email"
-                      placeholder="Enter your email"
+                      type="text"
+                      placeholder="Enter your email / username"
                       className="font-['GeneralSans-Regular'] flex h-10 w-full rounded-md border border-input bg-background pl-10 pr-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                     />
                   </div>
