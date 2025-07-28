@@ -1,3 +1,5 @@
+import ActiveUsers from "../component/ActiveUsers";
+import PostFeed from "../component/PostFeed";
 import Sidebar from "../component/Sidebar";
 
 const Homepage = () => {
@@ -6,6 +8,8 @@ const Homepage = () => {
       <div className="bg-base-100 rounded-lg shadow-cl w-full  h-full">
         <div className="flex h-full rounded-lg overflow-hidden">
           <Sidebar />
+          <PostFeed />
+          <ActiveUsers/>
         </div>
       </div>
     </div>
