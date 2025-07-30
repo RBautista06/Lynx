@@ -4,6 +4,7 @@ import LoginPage from "../pages/LoginPage";
 import SignupPage from "../pages/SignupPage";
 import AuthRoute from "../component/routeGuard/AuthRoute";
 import ProtectRoute from "../component/routeGuard/ProtectRoute";
+import ProfilePage from "../pages/ProfilePage";
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,14 @@ const router = createBrowserRouter([
       <AuthRoute>
         <SignupPage />
       </AuthRoute>
+    ),
+  },
+  {
+    path: "/profile",
+    element: (
+      <ProtectRoute>
+        <ProfilePage />
+      </ProtectRoute>
     ),
   },
 ]);

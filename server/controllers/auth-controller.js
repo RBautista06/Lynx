@@ -3,6 +3,7 @@ import { matchedData, validationResult } from "express-validator";
 import { comparePassword, hashPassword } from "../utils/hashPass.js";
 import { generateJWTTOKEN } from "../utils/generateJWTToken.js";
 import { User } from "../model/user.model.js";
+import cloudinary from "../lib/cloudinary.js";
 
 export const signup = async (req, res) => {
   const result = validationResult(req);
@@ -117,5 +118,38 @@ export const checkAuth = async (req, res) => {
   } catch (error) {
     console.log("error checking auth", error);
     res.status(400).send({ success: false, message: error.message });
+  }
+};
+
+export const updateProfile = async (req, res) => {
+  try {
+    const { fullName, profilePic, bio } = req.body;
+    const userId = req.userId;
+
+    const updatedFields = {};
+
+    if (fullName) {
+      updatedFields.fullName = fullName;
+    }
+    if (bio) {
+      updatedFields.bio = bio;
+    }
+    if (profilePic) {
+      const uploadProfileRes = await cloudinary.uploader.upload(profilePic);
+      updatedFields.profilePic = uploadProfileRes.secure_url;
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      {
+        $set: updatedFields,
+      },
+      { new: true }
+    ).select("-password");
+
+    return res.status(200).json(updatedUser);
+  } catch (error) {
+    console.log("Error Updating Profile: ", error);
+    return res.status(500).json({ success: false, message: "Log in failed" });
   }
 };

@@ -4,6 +4,7 @@ import {
   login,
   logout,
   signup,
+  updateProfile,
 } from "../controllers/auth-controller.js";
 import {
   checkUserValidationSchema,
@@ -17,4 +18,5 @@ router.post("/signup", checkUserValidationSchema, signup);
 router.post("/login", loginValidationSchema, login);
 router.post("/logout", logout);
 router.get("/check-auth", protectRoute, checkAuth);
+router.patch("/profile", protectRoute, updateProfile);
 export default router;
