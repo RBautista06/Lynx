@@ -8,9 +8,13 @@ import {
   Search,
   SquarePlus,
 } from "lucide-react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { userAuth } from "../store/storeSlice/authSlice";
 
 const Sidebar = () => {
+  const { user, isLoading } = useSelector(userAuth);
+
   return (
     <aside className="h-full border-r border-gray-700 flex flex-col w-20 lg:w-85 py-10 px-5 gap-10">
       <div className="flex items-center gap-3">

@@ -8,6 +8,7 @@ interface User {
   fullName: string;
   username: string;
   email: string;
+  profilePic?: string;
 }
 
 interface AuthState {

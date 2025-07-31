@@ -1,6 +1,9 @@
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { userAuth } from "../store/storeSlice/authSlice";
 
 const ActiveUsers = () => {
+  const { user, isLoading } = useSelector(userAuth);
   return (
     <aside className="border-l border-gray-700 h-full  w-20 lg:w-85 flex flex-col py-10 px-5 gap-5">
       {/* own profile */}
@@ -12,8 +15,8 @@ const ActiveUsers = () => {
             <img src="/img/avatar.png" className="h-full w-full" />
           </div>
           <div className="flex flex-col">
-            <span className="font-semibold">railleyyyy</span>
-            <span className="text-sm opacity-50">Railley</span>
+            <span className="font-semibold">{user?.username}</span>
+            <span className="text-sm opacity-50">{user?.fullName}</span>
           </div>
         </Link>
       </div>
