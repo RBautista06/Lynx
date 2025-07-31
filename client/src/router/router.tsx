@@ -5,6 +5,7 @@ import SignupPage from "../pages/SignupPage";
 import AuthRoute from "../component/routeGuard/AuthRoute";
 import ProtectRoute from "../component/routeGuard/ProtectRoute";
 import ProfilePage from "../pages/ProfilePage";
+import EditProfile from "../pages/EditProfile";
 
 const router = createBrowserRouter([
   {
@@ -36,6 +37,14 @@ const router = createBrowserRouter([
     element: (
       <ProtectRoute>
         <ProfilePage />
+      </ProtectRoute>
+    ),
+  },
+  {
+    path: "/edit-profile",
+    element: (
+      <ProtectRoute>
+        <EditProfile />
       </ProtectRoute>
     ),
   },

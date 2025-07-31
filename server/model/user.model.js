@@ -34,6 +34,10 @@ const userSchema = new mongoose.Schema(
       default: "",
       maxLength: 100,
     },
+    gender: {
+      type: String,
+      default: "",
+    },
     followers: [
       {
         // This stores the ID of another user (who is following this user)
