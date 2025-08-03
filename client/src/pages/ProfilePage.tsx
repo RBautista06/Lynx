@@ -14,7 +14,7 @@ const ProfilePage = () => {
           <div className=" h-full w-7xl flex justify-center">
             <div className=" w-4xl  py-10 px-5 flex flex-col gap-10">
               <div className="border">
-                {/* user detailsasdss */}
+                {/* user detailsasdssssss */}
                 <div className="flex px-5 gap-10 items-center justify-center">
                   <div className="size-45 rounded-full overflow-hidden">
                     <img src="./img/avatar.png" className="w-full h-full" />
