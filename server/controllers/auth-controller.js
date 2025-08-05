@@ -147,7 +147,11 @@ export const updateProfile = async (req, res) => {
       { new: true }
     ).select("-password");
 
-    return res.status(200).json(updatedUser);
+    return res.status(200).json({
+      success: true,
+      message: "Profile updated successfully",
+      user: updatedUser,
+    });
   } catch (error) {
     console.log("Error Updating Profile: ", error);
     return res.status(500).json({ success: false, message: "Log in failed" });

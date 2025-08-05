@@ -1,27 +1,21 @@
-import { useEffect, type ReactNode } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { checkAuth, userAuth } from "../../store/storeSlice/authSlice";
+// routes/AuthRoute.tsx
+import { type ReactNode } from "react";
 import { Navigate } from "react-router-dom";
-import type { AppDispatch } from "../../store/store";
+import { useSelector } from "react-redux";
+import { userAuth } from "../../store/storeSlice/authSlice";
 
 interface Props {
   children: ReactNode;
 }
 
 const AuthRoute = ({ children }: Props) => {
-  const dispatch = useDispatch<AppDispatch>();
-  const { user, isLoading } = useSelector(userAuth);
+  const { user, checked } = useSelector(userAuth);
 
-  useEffect(() => {
-    if (!user) {
-      dispatch(checkAuth());
-    }
-  }, [dispatch, user]);
-
-  if (isLoading) {
+  // Wait until auth check is done
+  if (!checked) {
     return (
-      <div className="w-full h-screen flex items-center justify-center">
-        <p className="text-lg font-semibold">Loading...</p>
+      <div className="h-screen w-full flex items-center justify-center">
+        <p className="text-lg font-semibold">Checking auth...</p>
       </div>
     );
   }

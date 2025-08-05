@@ -15,13 +15,36 @@ const EditProfile = () => {
   const [profilePic, setProfilePic] = useState<string | null>("");
   const [selectedFile, setSelectedFile] = useState<string | null>(null);
 
+  //this is for disabling the button when their is no input modified
+  const [originalData, setOriginalData] = useState({
+    fullName: "",
+    bio: "",
+    profilePic: "",
+  });
+
   useEffect(() => {
     if (user) {
-      setFullName(user.fullName || "");
-      setBio(user.bio || "");
-      setProfilePic(user.profilePic || "/img/avatar.png");
+      const initialFullName = user.fullName || "";
+      const initialBio = user.bio || "";
+      const initialProfilePic = user.profilePic || "/img/avatar.png";
+
+      setFullName(initialFullName);
+      setBio(initialBio);
+      setProfilePic(initialProfilePic);
+
+      // Save original state
+      setOriginalData({
+        fullName: initialFullName,
+        bio: initialBio,
+        profilePic: initialProfilePic,
+      });
     }
   }, [user]);
+
+  const isChanged =
+    fullName !== originalData.fullName ||
+    bio !== originalData.bio ||
+    (selectedFile && selectedFile !== originalData.profilePic);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -71,7 +94,7 @@ const EditProfile = () => {
         <div className="flex h-full rounded-lg overflow-hidden">
           <Sidebar />
           <div className=" h-full w-7xl flex justify-center">
-            <div className="border w-4xl  py-10 px-5 ">
+            <div className="w-4xl  py-10 px-5 ">
               <form onSubmit={handleSubmit} className="flex flex-col gap-5">
                 {/* for profile photo change */}
                 <div className="flex justify-between items-center p-5 rounded-xl bg-base-300">
@@ -137,8 +160,10 @@ const EditProfile = () => {
                     everyone.
                   </p>
 
-                  <button className="btn btn-primary w-50" type="submit">
-                    {" "}
+                  <button
+                    className="btn btn-primary w-50"
+                    type="submit"
+                    disabled={!isChanged || isLoading}>
                     {isLoading ? (
                       <>
                         <Loader2 className="animate-spin size-5 mr-2" />

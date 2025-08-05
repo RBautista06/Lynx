@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
-import AppLayout from "../AppLayout"; // ⬅️ import this!
+import AppLayout from "../AppLayout";
 import Homepage from "../pages/Homepage";
 import LoginPage from "../pages/LoginPage";
 import SignupPage from "../pages/SignupPage";
@@ -11,10 +11,10 @@ import EditProfile from "../pages/EditProfile";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <AppLayout />, // ⬅️ Wrap all routes with AppLayout
+    element: <AppLayout />,
     children: [
       {
-        path: "",
+        index: true,
         element: (
           <ProtectRoute>
             <Homepage />
