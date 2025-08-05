@@ -19,7 +19,13 @@ const ProtectRoute = ({ children }: Props) => {
     }
   }, [user, dispatch]);
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) {
+    return (
+      <div className="w-full h-screen flex items-center justify-center">
+        <p className="text-lg font-semibold">Loading...</p>
+      </div>
+    );
+  }
 
   if (!user) return <Navigate to="/login" replace />;
 

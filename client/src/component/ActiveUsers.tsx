@@ -11,8 +11,11 @@ const ActiveUsers = () => {
         <Link
           to="/"
           className="flex gap-5 cursor-pointer rounded-lg p-2 hover:bg-base-200 items-center ">
-          <div className="size-10 border-primary border-1 rounded-full overflow-hidden object-cover">
-            <img src="/img/avatar.png" className="h-full w-full" />
+          <div className="size-10 border-primary border-2 rounded-full overflow-hidden object-cover">
+            <img
+              src={user?.profilePic}
+              className="h-full w-full object-cover"
+            />
           </div>
           <div className="flex flex-col">
             <span className="font-semibold">{user?.username}</span>

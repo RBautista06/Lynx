@@ -77,17 +77,47 @@ export const checkAuth = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const res = await axiosInstance.get("auth/check-auth");
-      const user = res.data.user;
-      return user;
+      return res.data.user;
     } catch (err: any) {
-      const msg = Array.isArray(err.response?.data?.message)
-        ? err.response.data.message.join(", ")
-        : err.response?.data?.message || "Auth Check failed";
-      return rejectWithValue(msg);
+      const status = err.response?.status;
+      // Only reject if token is invalid/expired
+      if (status === 401 || status === 403) {
+        return rejectWithValue("Unauthorized");
+      }
+      // Otherwise, don't wipe auth – just log or handle
+      console.warn("checkAuth failed:", err);
+      return rejectWithValue(
+        "Something went wrong, but you're still logged in"
+      );
     }
   }
 );
 
+export const updateProfile = createAsyncThunk(
+  "auth/update-profile",
+  async (
+    userProfile: {
+      fullName: string;
+      profilePic: string;
+      bio: string;
+    },
+    { rejectWithValue }
+  ) => {
+    try {
+      const res = await axiosInstance.patch(
+        "auth/profile/update-profile",
+        userProfile
+      );
+      const updatedUser = res.data.user;
+      return updatedUser;
+    } catch (error: any) {
+      const msg = Array.isArray(error.response?.data?.message)
+        ? error.response.data.message.join(", ")
+        : error.response?.data?.message || "Error updating profile";
+      return rejectWithValue(msg);
+    }
+  }
+);
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -131,8 +161,25 @@ const authSlice = createSlice({
       })
       .addCase(checkAuth.rejected, (state, action) => {
         state.user = null;
+        // i decided to hide the error in the user but if i want this will show
         // state.error = action.payload as string;
+        if (action.payload === "Unauthorized") {
+          state.user = null;
+        }
         state.isLoading = false;
+      })
+      /// uploadProfile
+      .addCase(updateProfile.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(updateProfile.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.user = action.payload;
+      })
+      .addCase(updateProfile.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
       });
   },
 });

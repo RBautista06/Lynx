@@ -18,7 +18,13 @@ const AuthRoute = ({ children }: Props) => {
     }
   }, [dispatch, user]);
 
-  if (isLoading) return null; // or a loading spinner
+  if (isLoading) {
+    return (
+      <div className="w-full h-screen flex items-center justify-center">
+        <p className="text-lg font-semibold">Loading...</p>
+      </div>
+    );
+  }
 
   if (user) return <Navigate to="/" replace />;
 

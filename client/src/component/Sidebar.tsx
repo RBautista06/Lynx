@@ -64,8 +64,11 @@ const Sidebar = () => {
           <Link
             to="/profile"
             className="flex gap-5 cursor-pointer rounded-lg p-2 hover:bg-base-200">
-            <div className="size-6 border-primary rounded-full overflow-hidden object-cover">
-              <img src="./img/avatar.png" className="w-full h-full" />
+            <div className="size-7 border-primary rounded-full overflow-hidden object-cover border-2">
+              <img
+                src={user?.profilePic}
+                className="w-full h-full object-cover"
+              />
             </div>
             <h1 className="font-semibold">Profile</h1>
           </Link>
