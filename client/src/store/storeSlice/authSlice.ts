@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { axiosInstance } from "../../lib/axios";
 import type { RootState } from "../store";
 
-interface User {
+export interface User {
   _id: string;
   fullName: string;
   username: string;
@@ -104,6 +104,14 @@ export const updateProfile = createAsyncThunk(
         : err.response?.data?.message || "Error updating profile";
       return rejectWithValue(msg);
     }
+  }
+);
+
+export const connectSocket = createAsyncThunk(
+  "auth/connect-socket",
+  async (_, { rejectWithValue }) => {
+    try {
+    } catch (error) {}
   }
 );
 
