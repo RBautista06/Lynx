@@ -66,7 +66,7 @@ const Sidebar = () => {
             className="flex gap-5 cursor-pointer rounded-lg p-2 hover:bg-base-200">
             <div className="size-7 border-primary rounded-full overflow-hidden object-cover border-2">
               <img
-                src={user?.profilePic}
+                src={user?.profilePic || "./img/avatar.png"}
                 className="w-full h-full object-cover"
               />
             </div>

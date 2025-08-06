@@ -18,7 +18,7 @@ const ProfilePage = () => {
                 <div className="flex px-5 gap-10 items-center">
                   <div className="size-43 rounded-full overflow-hidden shadow-2xl">
                     <img
-                      src={user?.profilePic}
+                      src={user?.profilePic || "./img/avatar.png"}
                       className="w-full h-full object-cover"
                     />
                   </div>

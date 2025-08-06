@@ -9,11 +9,11 @@ const ActiveUsers = () => {
       {/* own profile */}
       <div className="border-y-1 border-gray-700 py-2 ">
         <Link
-          to="/"
+          to="/profile"
           className="flex gap-5 cursor-pointer rounded-lg p-2 hover:bg-base-200 items-center ">
           <div className="size-10 border-primary border-2 rounded-full overflow-hidden object-cover">
             <img
-              src={user?.profilePic}
+              src={user?.profilePic || "./img/avatar.png"}
               className="h-full w-full object-cover"
             />
           </div>

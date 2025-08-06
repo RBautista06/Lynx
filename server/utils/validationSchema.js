@@ -24,9 +24,9 @@ export const checkUserValidationSchema = checkSchema({
   },
   username: {
     isLength: {
-      options: { min: 5, max: 20 },
+      options: { min: 5, max: 15 },
       errorMessage:
-        "Must be minumum of 5 characters and maximum of 20 characters",
+        "Username Must be minumum of 5 characters and maximum of 15 characters",
     },
     notEmpty: {
       errorMessage: "Username cannot be empty",

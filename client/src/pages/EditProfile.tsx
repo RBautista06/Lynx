@@ -5,7 +5,7 @@ import { updateProfile, userAuth } from "../store/storeSlice/authSlice";
 import { Loader2, PencilIcon } from "lucide-react";
 import type { AppDispatch } from "../store/store";
 import { useEffect, useState } from "react";
-
+import { toast } from "sonner";
 const EditProfile = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { user, isLoading } = useSelector(userAuth);
@@ -51,7 +51,7 @@ const EditProfile = () => {
     if (!file) return;
 
     if (file.size > 10 * 1024 * 1024) {
-      alert("Image must be under 10MB");
+      toast.warning("Image must be under 10MB");
       return;
     }
 
@@ -82,9 +82,11 @@ const EditProfile = () => {
         setBio(updated.bio);
         setProfilePic(updated.profilePic);
         setSelectedFile(null); // optional: reset local preview
+        toast.success("Profile has been Updated");
       }
     } catch (err) {
       console.error("Profile update failed:", err);
+      toast.error("Profile update failed");
     }
   };
 
@@ -133,6 +135,7 @@ const EditProfile = () => {
                       Full Name:
                     </label>
                     <input
+                      spellCheck={false}
                       type="text"
                       className="input w-full"
                       minLength={10}
@@ -147,6 +150,7 @@ const EditProfile = () => {
                     </label>
 
                     <textarea
+                      spellCheck={false}
                       className="textarea h-24 w-full"
                       placeholder="Bio"
                       maxLength={50}

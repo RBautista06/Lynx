@@ -6,6 +6,7 @@ import PhoneMockup from "../component/PhoneMockUp";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch } from "../store/store";
 import { signup, userAuth } from "../store/storeSlice/authSlice";
+import { toast } from "sonner";
 
 const SignupPage = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -22,9 +23,14 @@ const SignupPage = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(signup(formData));
+    const signupResult = await dispatch(signup(formData));
+    if (signup.fulfilled.match(signupResult)) {
+      toast.success("Signup Successfully");
+    } else if (signup.rejected.match(signupResult)) {
+      toast.error(error);
+    }
   };
 
   const [showPassword, setShowPassword] = useState(false);
@@ -70,11 +76,6 @@ const SignupPage = () => {
             </div>
 
             <div className="px-5 rounded-xl ">
-              {error && (
-                <p className="text-red-500 text-sm font-medium text-center">
-                  {error}
-                </p>
-              )}
               <form className="space-y-2" onSubmit={handleSubmit}>
                 {/* Full Name */}
                 <div className="space-y-2">

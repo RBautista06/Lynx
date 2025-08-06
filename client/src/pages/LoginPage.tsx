@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch } from "../store/store";
 import { login, userAuth } from "../store/storeSlice/authSlice";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+
 const LoginPage = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
@@ -27,7 +29,10 @@ const LoginPage = () => {
 
     if (login.fulfilled.match(resultAction)) {
       setFormData({ emailOrUsername: "", password: "" });
+      toast.success("Logged In successfully");
       navigate("/"); // ✅ redirect
+    } else if (login.rejected.match(resultAction)) {
+      toast.error(error);
     }
   };
 
@@ -57,12 +62,6 @@ const LoginPage = () => {
             </div>
           </div>
           <div className="flex flex-col gap-5 mt-8">
-            {error && (
-              <p className="text-red-500 text-sm font-medium text-center">
-                {" "}
-                {error}
-              </p>
-            )}
             <div className="px-5 rounded-xl ">
               <form className="space-y-2" onSubmit={handleSubmit}>
                 {/* Email */}
