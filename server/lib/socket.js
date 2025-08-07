@@ -8,7 +8,8 @@ const server = http.createServer(app); // Wrap Express in HTTP server
 // Attach Socket.IO to the HTTP server with CORS configuration
 const io = new Server(server, {
   cors: {
-    origin: ["http://localhost:5173"], // Allow frontend running at this origin
+    origin: ["http://localhost:5173"],
+     // Allow frontend running at this origin
   },
 });
 

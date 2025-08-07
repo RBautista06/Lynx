@@ -7,20 +7,13 @@ import type { User } from "./authSlice";
 import { axiosInstance } from "../../lib/axios";
 import type { RootState } from "../store";
 
-type SelectedUser = {
-  _id: string;
-  fullName: string;
-  userName: string;
-  profilePic: string;
-};
-
 interface MessageState {
   user: User | null;
-  onlineUserIds: string[] | null;
-  allUsers: User[] | null;
+  onlineUserIds: string[] | null; // from socket
+  allUsers: User[] | null; // from API
   isOnlineUsersLoading: boolean;
   isMessageLoading: boolean;
-  selectedUsers: SelectedUser[] | null;
+  selectedUsers: User[] | null;
   error: string | null;
 }
 

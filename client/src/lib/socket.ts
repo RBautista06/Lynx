@@ -5,7 +5,7 @@ const BASE_URL = "http://localhost:5001";
 let socket: Socket | null = null;
 
 export const connectSocket = (userId: string): Socket => {
-  if (!userId) throw new Error("Socket: Missing UserId");
+  if (!userId) throw new Error("Missing userId");
   if (!socket || !socket.connected) {
     socket = io(BASE_URL, {
       query: { userId },
@@ -14,11 +14,8 @@ export const connectSocket = (userId: string): Socket => {
   return socket;
 };
 
-export const getSocket = (): Socket | null => socket;
-
+export const getSocket = () => socket;
 export const disconnectSocket = () => {
-  if (socket?.connected) {
-    socket.disconnect();
-    socket = null;
-  }
+  if (socket?.connected) socket.disconnect();
+  socket = null;
 };
