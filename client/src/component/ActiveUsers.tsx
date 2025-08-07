@@ -72,7 +72,7 @@ const ActiveUsers = () => {
           />
         </div>
 
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-1">
           {isOnlineUsersLoading && <span>Loading...</span>}
           {!isOnlineUsersLoading && filteredUsers?.length === 0 && (
             <span className="text-sm opacity-50">
@@ -82,7 +82,7 @@ const ActiveUsers = () => {
           {filteredUsers?.map((u) => (
             <Link
               key={u._id}
-              to={`/chat/${u._id}`}
+              to={`/messages`}
               className="relative flex gap-4 items-center p-2 rounded hover:bg-base-200">
               <div className="relative">
                 <div className="w-10 h-10 rounded-full overflow-hidden border border-gray-600">

@@ -9,7 +9,7 @@ const Homepage = () => {
         <div className="flex h-full rounded-lg overflow-hidden">
           <Sidebar />
           <PostFeed />
-          <ActiveUsers/>
+          <ActiveUsers />
         </div>
       </div>
     </div>
