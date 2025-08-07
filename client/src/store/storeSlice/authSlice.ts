@@ -107,14 +107,6 @@ export const updateProfile = createAsyncThunk(
   }
 );
 
-export const connectSocket = createAsyncThunk(
-  "auth/connect-socket",
-  async (_, { rejectWithValue }) => {
-    try {
-    } catch (error) {}
-  }
-);
-
 const authSlice = createSlice({
   name: "auth",
   initialState,
