@@ -75,7 +75,11 @@ const ActiveUsers = () => {
         </div>
 
         {/* Scrollable user list */}
-        <div className="flex-1 overflow-y-auto  rounded p-1">
+        <div className="flex-1 overflow-y-auto  rounded p-1"
+        style={{
+          scrollbarWidth: "none", // Firefox
+          msOverflowStyle: "none", // IE 10+
+        }}>
           {isOnlineUsersLoading && <span>Loading...</span>}
           {!isOnlineUsersLoading && filteredUsers?.length === 0 && (
             <span className="text-sm opacity-50">
