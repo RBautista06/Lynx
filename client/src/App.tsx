@@ -7,7 +7,7 @@ import { Toaster } from "sonner";
 const App = () => {
   return (
     <Provider store={store}>
-      <div className="flex items-center justify-center">
+      <div className="flex items-center justify-center ">
         <div className="h-screen w-full">
           <RouterProvider router={router} />
           <Toaster richColors position="top-center" />

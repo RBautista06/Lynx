@@ -16,7 +16,7 @@ const Sidebar = () => {
   const { user, isLoading } = useSelector(userAuth);
 
   return (
-    <aside className="h-full border-r border-gray-700 flex flex-col w-20 lg:w-85 py-10 px-5 gap-10">
+    <aside className="h-full border-r border-gray-700 flex flex-col w-20 lg:w-85 py-8 px-5 gap-10">
       <div className="flex items-center gap-3">
         <div className="size-10 flex items-center justify-center overflow-hidden p-1">
           <img src="/lynx_white.svg" className="w-full h-full object-contain" />
