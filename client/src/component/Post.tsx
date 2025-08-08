@@ -14,7 +14,6 @@ import CaptionText from "./CaptionText";
 const Post = () => {
   const [isLiked, setIsLiked] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
-  const [isSeeMore, setSeeMore] = useState(false);
 
   const handleLike = () => {
     setIsLiked(!isLiked);
@@ -24,9 +23,6 @@ const Post = () => {
     setIsSaved(!isSaved);
   };
 
-  const handleSeemore = () => {
-    setSeeMore(!isSeeMore);
-  };
   return (
     <div className="bg-base-200 rounded-xl p-5 flex flex-col gap-5">
       {/* post header */}
