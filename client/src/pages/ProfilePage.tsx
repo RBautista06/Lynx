@@ -35,7 +35,7 @@ const ProfilePage = () => {
                     </div>
 
                     <div className="flex gap-10">
-                      {/* number of post */}
+                      {/* number of posts */}
                       <div className="flex gap-2">
                         <span className="font-semibold">3</span>{" "}
                         <p className="opacity-50">posts</p>
