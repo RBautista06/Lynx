@@ -42,6 +42,23 @@ export const getOnlineUsers = createAsyncThunk(
   }
 );
 
+/// fetching the messages api
+// do this after doing the send messages
+export const getMessages = createAsyncThunk(
+  "/messages/:id",
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = await axiosInstance.get("/messages/:id");
+      return res.data.messages;
+    } catch (err: any) {
+      const msg = Array.isArray(err.response?.data?.messsage)
+        ? err.response.data.message.join(", ")
+        : err.response.data.message || "Error getting Messages";
+      return rejectWithValue(msg);
+    }
+  }
+);
+
 const messageSlice = createSlice({
   name: "messages",
   initialState,

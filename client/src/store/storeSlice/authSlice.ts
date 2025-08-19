@@ -169,7 +169,6 @@ const authSlice = createSlice({
         console.error("Update profile failed:", action.payload);
         state.isLoading = false;
         state.error = action.payload as string;
-        // ❗️DO NOT clear user here
       });
   },
 });

@@ -39,7 +39,7 @@ const Post = () => {
               <Link to="/">
                 <span className="font-semibold"> railleyyy</span>
               </Link>
-              <button className="text-primary font-semibold text-sm">
+              <button className="text-primary font-semibold text-sm cursor-pointer hover:scale-105 transition-all duration-300">
                 • Follow
               </button>
             </div>
