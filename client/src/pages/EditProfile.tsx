@@ -98,7 +98,7 @@ const EditProfile = () => {
           <div className=" h-full w-7xl flex justify-center">
             <div className="w-4xl  py-10 px-5 ">
               <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-                {/* for profile photo change */}
+                {/* for profile photo changes */}
                 <div className="flex justify-between items-center p-5 rounded-xl bg-base-300">
                   <div className="flex gap-10 justify-center">
                     <div className="size-20 rounded-full overflow-hidden object-cover">
