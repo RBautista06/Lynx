@@ -4,6 +4,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import authRoutes from "./routes/auth.route.js";
 import messageRoutes from "./routes/message.route.js";
+import postRoutes from "./routes/post.route.js";
 import { dbConnection } from "./lib/db.js";
 import { app, server } from "./lib/socket.js"; // ✅ Use your socket-exported app/server
 
@@ -23,8 +24,10 @@ app.use(
 app.get("/", (req, res) => {
   res.send("hello bitches");
 });
+
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
+app.use("/api/post", postRoutes);
 
 // ✅ Use `server.listen`, not `app.listen`
 const PORT = process.env.PORT || 5001;
