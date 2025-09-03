@@ -58,7 +58,7 @@ const Post = () => {
           <ChevronLeft size={16} />
         </button>
         <div
-          style={{ aspectRatio: "1/1.2" }}
+          style={{ aspectRatio: "1/1" }}
           className="overflow-hidden rounded-lg border border-b-gray-400">
           <img
             src="./img/sampleimg.png"
