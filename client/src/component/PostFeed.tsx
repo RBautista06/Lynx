@@ -2,9 +2,24 @@ import { useSelector } from "react-redux";
 import { userAuth } from "../store/storeSlice/authSlice";
 import CreatePost from "./CreatePost.tsx";
 import Post from "./Post.tsx";
+import type { PostProp } from "./propTypes/postTypes.tsx";
 
 const PostFeed = () => {
   const { user } = useSelector(userAuth);
+
+  const examplePost: PostProp = {
+    _id: "123",
+    author: "456",
+    caption: "Hello world",
+    likes: ["111", "222"],
+    comments: [
+      { comment: "Nice!", author: "111", createdAt: new Date().toISOString() },
+    ],
+    media: ["./img/sampleimg.png", "./img/sampleimg.png"],
+    privacy: "public",
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  };
 
   return (
     <div className=" h-auto w-7xl flex justify-center l">
@@ -19,8 +34,7 @@ const PostFeed = () => {
             profilePicture={user?.profilePic ?? ""}
             username={user?.username ?? ""}
           />
-          <Post />
-          <Post />
+          <Post post={examplePost} />
         </div>
       </div>
     </div>

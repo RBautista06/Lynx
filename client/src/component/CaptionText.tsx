@@ -1,12 +1,9 @@
 import { useState } from "react";
-
-const CaptionText = ({
-  text,
-  limit = 150,
-}: {
-  text: string;
+type CaptionTextProps = {
+  text?: string;
   limit?: number;
-}) => {
+};
+const CaptionText = ({ text = "", limit = 150 }: CaptionTextProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const handleToggle = () => setIsExpanded(!isExpanded);

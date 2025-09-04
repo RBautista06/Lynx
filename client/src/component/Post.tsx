@@ -10,10 +10,25 @@ import {
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import CaptionText from "./CaptionText";
+import type { PostProp } from "./propTypes/postTypes";
 
-const Post = () => {
+type postProps = {
+  post: PostProp;
+};
+const Post = ({ post }: postProps) => {
   const [isLiked, setIsLiked] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const handleNext = () => {
+    setCurrentIndex((prev) => (prev + 1) % post.media.length);
+  };
+  const handlePrev = () => {
+    setCurrentIndex(
+      (prev) => (prev - 1 + post.media.length) % post.media.length
+    );
+  };
 
   const handleLike = () => {
     setIsLiked(!isLiked);
@@ -54,20 +69,36 @@ const Post = () => {
       </div>
       {/* images uploaded */}
       <div className="w-full flex items-center gap-4 relative">
-        <button className=" absolute btn rounded-full size-8 p-0 bg-base-100 left-3">
-          <ChevronLeft size={16} />
-        </button>
+        {currentIndex > 0 && (
+          <button
+            className="absolute btn rounded-full size-8 p-0 bg-base-100 left-3 z-20"
+            onClick={handlePrev}>
+            <ChevronLeft size={16} />
+          </button>
+        )}
+
         <div
           style={{ aspectRatio: "1/1" }}
           className="overflow-hidden rounded-lg border border-b-gray-400">
-          <img
-            src="./img/sampleimg.png"
-            className="object-cover w-full h-full"
-          />
+          <div
+            className="flex transition-transform duration-500 ease-in-out "
+            style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
+            {post.media.map((img, i) => (
+              <img
+                key={i}
+                src={img}
+                className="object-cover w-full h-full flex-shrink-0"
+              />
+            ))}
+          </div>
         </div>
-        <button className="btn rounded-full size-8 p-0 bg-base-100 absolute right-3 ">
-          <ChevronRight size={16} />
-        </button>
+        {currentIndex < post.media.length - 1 && (
+          <button
+            className="absolute btn rounded-full size-8 p-0 bg-base-100 right-3 z-20"
+            onClick={handleNext}>
+            <ChevronRight size={16} />
+          </button>
+        )}
       </div>
       {/* likes comments and save */}
       <div className="flex flex-col gap-2">
@@ -103,7 +134,7 @@ const Post = () => {
         <div className="flex flex-col">
           <span className="font-semibold">34,456 likes</span>
           {/* caption */}
-          <CaptionText text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum." />
+          <CaptionText text={post.caption} />
         </div>
       </div>
     </div>
