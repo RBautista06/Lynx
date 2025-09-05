@@ -3,10 +3,14 @@ export interface Comment {
   author: string; // could also be ObjectId if populated
   createdAt: string; // Dates come as strings in JSON
 }
-
+interface author {
+  _id: string;
+  username: string;
+  profilePic: string;
+}
 export interface PostProp {
   _id: string;
-  author: string; // ObjectId reference to User
+  author: author; // ObjectId reference to User
   caption?: string;
   likes: string[];
   comments: Comment[];

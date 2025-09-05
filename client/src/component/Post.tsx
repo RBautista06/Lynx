@@ -57,16 +57,16 @@ const Post = ({ post }: postProps) => {
       {/* post header */}
       <div className="flex justify-between">
         <div className="flex gap-4">
-          <div className="rounded-full size-12 ">
+          <div className="rounded-full size-12 overflow-hidden">
             <img
-              src="./img/avatar.png"
+              src={post.author.profilePic || "/img/avatar.png"}
               className="w-full h-full object-cover"
             />
           </div>
           <div className="flex flex-col">
             <div className="flex gap-4 items-center">
               <Link to="/">
-                <span className="font-semibold"> railleyyy</span>
+                <span className="font-semibold">{post.author.username}</span>
               </Link>
               <button className="text-primary font-semibold text-sm cursor-pointer hover:scale-105 transition-all duration-300">
                 • Follow
