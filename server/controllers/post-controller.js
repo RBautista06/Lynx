@@ -10,15 +10,15 @@ export const uploadPost = async (req, res) => {
 
     if (media) {
       if (Array.isArray(media)) {
-        const uploads = await Promise.all(
-          image.map((m) => cloudinary.uploader.upload(m))
-        );
-        mediaURLs = uploads.map((upload) => upload.secureURL);
-        // mediaURLs = media;
+        // const uploads = await Promise.all(
+        //   image.map((m) => cloudinary.uploader.upload(m))
+        // );
+        // mediaURLs = uploads.map((upload) => upload.secureURL);
+        mediaURLs = media;
       } else {
-        const singleUpload = await cloudinary.uploader.upload(media);
-        mediaURLs.push(singleUpload.secure_url);
-        // mediaURLs.push(singleUpload);
+        // const singleUpload = await cloudinary.uploader.upload(media);
+        // mediaURLs.push(singleUpload.secure_url);
+        mediaURLs.push(singleUpload);
       }
     }
 

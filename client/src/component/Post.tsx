@@ -1,16 +1,19 @@
 import {
   Bookmark,
-  ChevronLeft,
-  ChevronRight,
+  Earth,
   Ellipsis,
   Heart,
+  Lock,
   MessageCircle,
   Send,
+  Users,
 } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import CaptionText from "./CaptionText";
 import type { PostProp } from "./propTypes/postTypes";
+import { formatMessageTime } from "../utils/TImeFormatter";
+import ImageSlider from "./ImageSlider";
 
 type postProps = {
   post: PostProp;
@@ -19,15 +22,26 @@ const Post = ({ post }: postProps) => {
   const [isLiked, setIsLiked] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
 
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  const handleNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % post.media.length);
-  };
-  const handlePrev = () => {
-    setCurrentIndex(
-      (prev) => (prev - 1 + post.media.length) % post.media.length
-    );
+  const privacyRender = () => {
+    if (post.privacy === "private") {
+      return (
+        <span>
+          <Lock size={16} />
+        </span>
+      );
+    } else if (post.privacy === "followers") {
+      return (
+        <span>
+          <Users size={16} />
+        </span>
+      );
+    } else {
+      return (
+        <span>
+          <Earth size={16} />
+        </span>
+      );
+    }
   };
 
   const handleLike = () => {
@@ -58,7 +72,12 @@ const Post = ({ post }: postProps) => {
                 • Follow
               </button>
             </div>
-            <span className="opacity-50 text-sm">August 8, 2025, 7:25pm</span>
+            <div className="flex gap-2 opacity-50 items-center">
+              <span className=" text-sm">
+                {formatMessageTime(post.createdAt)}
+              </span>
+              {privacyRender()}
+            </div>
           </div>
         </div>
         <div className="flex items-center">
@@ -68,38 +87,7 @@ const Post = ({ post }: postProps) => {
         </div>
       </div>
       {/* images uploaded */}
-      <div className="w-full flex items-center gap-4 relative">
-        {currentIndex > 0 && (
-          <button
-            className="absolute btn rounded-full size-8 p-0 bg-base-100 left-3 z-20"
-            onClick={handlePrev}>
-            <ChevronLeft size={16} />
-          </button>
-        )}
-
-        <div
-          style={{ aspectRatio: "1/1" }}
-          className="overflow-hidden rounded-lg border border-b-gray-400">
-          <div
-            className="flex transition-transform duration-500 ease-in-out "
-            style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
-            {post.media.map((img, i) => (
-              <img
-                key={i}
-                src={img}
-                className="object-cover w-full h-full flex-shrink-0"
-              />
-            ))}
-          </div>
-        </div>
-        {currentIndex < post.media.length - 1 && (
-          <button
-            className="absolute btn rounded-full size-8 p-0 bg-base-100 right-3 z-20"
-            onClick={handleNext}>
-            <ChevronRight size={16} />
-          </button>
-        )}
-      </div>
+      <ImageSlider media={post.media} />
       {/* likes comments and save */}
       <div className="flex flex-col gap-2">
         <div className="flex justify-between items center">
