@@ -39,9 +39,9 @@ const postSchema = new mongoose.Schema(
     ],
     privacy: {
       type: String,
-      enum: ["public", "followers", "private"],
+      enum: ["Public", "Followers", "Private"],
       //In Mongoose, enum lets you restrict a field’s values to a specific set of options (like a dropdown). If you try to save something outside the allowed values, MongoDB will reject it.
-      default: "public",
+      default: "Public",
       required: true,
     },
   },

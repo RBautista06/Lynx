@@ -23,13 +23,13 @@ const Post = ({ post }: postProps) => {
   const [isSaved, setIsSaved] = useState(false);
 
   const privacyRender = () => {
-    if (post.privacy === "private") {
+    if (post.privacy === "Private") {
       return (
         <span>
           <Lock size={16} />
         </span>
       );
-    } else if (post.privacy === "followers") {
+    } else if (post.privacy === "Followers") {
       return (
         <span>
           <Users size={16} />

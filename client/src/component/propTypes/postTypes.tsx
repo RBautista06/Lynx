@@ -15,7 +15,7 @@ export interface PostProp {
   likes: string[];
   comments: Comment[];
   media: string[];
-  privacy: "public" | "followers" | "private";
+  privacy: "Public" | "Followers" | "Private";
   createdAt: string;
   updatedAt: string;
 }
