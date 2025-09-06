@@ -1,35 +1,61 @@
-import { ChevronDown, Earth, Lock, Plus, Users, X } from "lucide-react";
+import {
+  ChevronDown,
+  Earth,
+  Loader2,
+  Lock,
+  Plus,
+  Users,
+  X,
+} from "lucide-react";
 import { useRef, useState } from "react";
 import CreatePostDialog from "./CreatePostDialog";
 import ImageSlider from "./ImageSlider";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch } from "../store/store";
+import { postRoute, uploadPost } from "../store/storeSlice/postSlice";
+import { toast } from "sonner";
 
 export interface PostProps {
   profilePicture: string;
   username: string;
 }
 const CreatePost = (props: PostProps) => {
+  const dispatch = useDispatch<AppDispatch>();
+  const { isUploadLoading } = useSelector(postRoute);
+
   const profileImage = props.profilePicture || "./img/avatar.png";
-  const [isClicked, setIsClicked] = useState(true);
-  const [privacy, setPrivacy] = useState<string>("Public");
+  const [isClicked, setIsClicked] = useState(false);
   const [isSelectClicked, setIsSelectClicked] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const [caption, setCaption] = useState<string>("");
   const [images, setImages] = useState<string[]>([]);
-
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [privacy, setPrivacy] = useState<string>("Public");
 
   const handlefileInput = () => {
     fileInputRef.current?.click(); // to trigger the hidden input
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const fileToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files) return;
 
-    const urls = Array.from(files).map((file) => URL.createObjectURL(file));
-    setImages((prev) => [...prev, ...urls]);
+    const base64Images = await Promise.all(
+      Array.from(files).map((file) => fileToBase64(file))
+    );
 
-    e.target.value = ""; // ✅ reset so same file can be reselected
+    setImages((prev) => [...prev, ...base64Images]);
+
+    e.target.value = ""; // reset
   };
 
   const privacyhandler = (privacy: string) => {
@@ -37,6 +63,22 @@ const CreatePost = (props: PostProps) => {
     setIsSelectClicked(!isSelectClicked);
   };
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const postForm = await dispatch(
+      uploadPost({
+        caption: caption,
+        media: images,
+        privacy: privacy,
+      })
+    );
+    if (uploadPost.fulfilled.match(postForm)) {
+      toast.success("Upload Post Successfully");
+    } else if (uploadPost.rejected.match(postForm)) {
+      toast.error(postForm.payload as string);
+    }
+  };
   return (
     <>
       {/* this is for the small part of create post */}
@@ -51,7 +93,7 @@ const CreatePost = (props: PostProps) => {
 
       {/* this is for the modal */}
       {isClicked && (
-        <form action="">
+        <form onSubmit={handleSubmit}>
           <div className="fixed inset-0 bg-base-300/80 bg-opacity-50 flex justify-center items-center z-50 ">
             <div
               className="w-full max-w-xl p-5  rounded-lg bg-base-100 shadow-lg flex flex-col gap-3 relative mt-10 mb-10 max-h-[90vh] overflow-y-auto"
@@ -61,7 +103,7 @@ const CreatePost = (props: PostProps) => {
               }}>
               <span
                 onClick={() => setIsClicked(false)}
-                className="cursor-pointer opacity-70 position absolute right-3 top-3">
+                className="cursor-pointer opacity-70 position absolute right-3 top-3 z-100 hover:scale-120 transition-all duration-300">
                 <X size={20} />
               </span>
               <div className="flex justify-center items-center p-2 opacity-80 border-b ">
@@ -155,11 +197,20 @@ const CreatePost = (props: PostProps) => {
                 <button
                   onClick={handlefileInput}
                   type="button"
-                  className="px-4 py-2 bg-base-300 text-white rounded-md hover:bg-base-200 transition flex gap-2 justify-center items-center">
-                  <Plus size={18} /> Images
+                  className="px-4 py-2 bg-base-300 text-white rounded-md hover:bg-base-200 transition flex gap-2 justify-center items-center"
+                  disabled={isUploadLoading}>
+                  <Plus size={18} />
+                  Image
                 </button>
-                <button className="btn btn-primary w-full text-lg tracking-wider">
-                  Post
+                <button
+                  className="btn btn-primary w-full text-lg tracking-wider disabled:opacity-50"
+                  type="submit"
+                  disabled={isUploadLoading}>
+                  {isUploadLoading ? (
+                    <Loader2 className="animate-spin mr-2" />
+                  ) : (
+                    "Post"
+                  )}
                 </button>
                 {/* padding botton doesnt work but this does */}
                 {images.length > 0 && (

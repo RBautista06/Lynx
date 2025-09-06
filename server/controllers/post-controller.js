@@ -1,5 +1,4 @@
 import { Post } from "../model/post.model.js";
-import { User } from "../model/user.model.js";
 import cloudinary from "../lib/cloudinary.js";
 
 export const uploadPost = async (req, res) => {
@@ -11,17 +10,13 @@ export const uploadPost = async (req, res) => {
 
     if (media) {
       if (Array.isArray(media)) {
-        // if using cloudinary:
-        // const uploads = await Promise.all(media.map((m) => cloudinary.uploader.upload(m)));
-        // mediaURLs = uploads.map((upload) => upload.secure_url);
-
-        mediaURLs = media; // raw URLs (as placeholder)
+        const uploads = await Promise.all(
+          media.map((m) => cloudinary.uploader.upload(m))
+        );
+        mediaURLs = uploads.map((upload) => upload.secure_url);
       } else {
-        // if using cloudinary:
-        // const singleUpload = await cloudinary.uploader.upload(media);
-        // mediaURLs.push(singleUpload.secure_url);
-
-        mediaURLs.push(media); // raw single string
+        const singleUpload = await cloudinary.uploader.upload(media);
+        mediaURLs.push(singleUpload.secure_url);
       }
     }
 
@@ -34,7 +29,7 @@ export const uploadPost = async (req, res) => {
 
     await newPost.save();
 
-    return res.status(201).json({ success: true, newPost: populatedPost });
+    return res.status(201).json({ success: true, post: newPost });
   } catch (error) {
     console.error("Error Uploading Post", error);
     return res
