@@ -5,7 +5,7 @@ import { userAuth } from "../store/storeSlice/authSlice";
 import { Link } from "react-router-dom";
 
 const ProfilePage = () => {
-  const { user, isLoading } = useSelector(userAuth);
+  const { user } = useSelector(userAuth);
   return (
     <div className="flex items-center justify-center  h-full">
       <div className="bg-base-100 rounded-lg shadow-cl w-full  h-full">

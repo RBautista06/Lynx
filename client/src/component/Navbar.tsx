@@ -1,4 +1,4 @@
-import { MessageSquare, Settings, User, LogOut } from "lucide-react";
+import {  Settings, User, LogOut } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {

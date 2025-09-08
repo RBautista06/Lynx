@@ -72,7 +72,7 @@ const ImageSlider = ({ media, allowRemove = "no", onRemove }: mediaProps) => {
               setCurrentIndex(i);
             }}
             className={`size-2 rounded-full transition-all ${
-              currentIndex === i ? "bg-base-100 scale-110" : "bg-base-200"
+              currentIndex === i ? "bg-base-300/70 scale-110" : "bg-base-100"
             }`}
           />
         ))}
