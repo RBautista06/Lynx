@@ -75,6 +75,11 @@ const CreatePost = (props: PostProps) => {
     );
     if (uploadPost.fulfilled.match(postForm)) {
       toast.success("Upload Post Successfully");
+      //close the modal and remove the images
+      setIsClicked(false);
+      setImages([]);
+      setCaption("");
+      setPrivacy("Public");
     } else if (uploadPost.rejected.match(postForm)) {
       toast.error(postForm.payload as string);
     }

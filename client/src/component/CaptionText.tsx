@@ -2,8 +2,13 @@ import { useState } from "react";
 type CaptionTextProps = {
   text?: string;
   limit?: number;
+  size?: string;
 };
-const CaptionText = ({ text = "", limit = 150 }: CaptionTextProps) => {
+const CaptionText = ({
+  text = "",
+  limit = 150,
+  size = "text-sm ",
+}: CaptionTextProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const handleToggle = () => setIsExpanded(!isExpanded);
@@ -14,7 +19,7 @@ const CaptionText = ({ text = "", limit = 150 }: CaptionTextProps) => {
     isExpanded || !shouldTruncate ? text : text.slice(0, limit).trimEnd();
 
   return (
-    <p className="text-sm leading-tight">
+    <p className={`${size} leading-tight`}>
       {displayText}
       {shouldTruncate && !isExpanded && (
         <span

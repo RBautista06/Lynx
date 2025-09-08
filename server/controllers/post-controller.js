@@ -20,7 +20,8 @@ export const uploadPost = async (req, res) => {
       }
     }
 
-    const newPost = new Post({
+    // use let in this json object so i can populate the username and profilePic
+    let newPost = new Post({
       author,
       caption,
       media: mediaURLs,
@@ -28,6 +29,10 @@ export const uploadPost = async (req, res) => {
     });
 
     await newPost.save();
+
+    // populate author before sending response
+    // You got username and profilePic from the User document that is referenced by post.author in the post Schema
+    newPost = await newPost.populate("author", "username profilePic");
 
     return res.status(201).json({ success: true, post: newPost });
   } catch (error) {

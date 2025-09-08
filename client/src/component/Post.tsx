@@ -86,8 +86,12 @@ const Post = ({ post }: postProps) => {
           </button>
         </div>
       </div>
+
+      {post.media.length === 0 && (
+        <CaptionText text={post.caption} size="text-xl font-semibold" />
+      )}
       {/* images uploaded */}
-      <ImageSlider media={post.media} />
+      {post.media.length > 0 && <ImageSlider media={post.media} />}
       {/* likes comments and save */}
       <div className="flex flex-col gap-2">
         <div className="flex justify-between items center">
@@ -122,7 +126,7 @@ const Post = ({ post }: postProps) => {
         <div className="flex flex-col">
           <span className="font-semibold">34,456 likes</span>
           {/* caption */}
-          <CaptionText text={post.caption} />
+          {post.media.length > 0 && <CaptionText text={post.caption} />}
         </div>
       </div>
     </div>
