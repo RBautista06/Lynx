@@ -11,9 +11,9 @@ import { useRef, useState } from "react";
 import CreatePostDialog from "./CreatePostDialog";
 import ImageSlider from "./ImageSlider";
 import { useDispatch, useSelector } from "react-redux";
-import type { AppDispatch } from "../store/store";
-import { postRoute, uploadPost } from "../store/storeSlice/postSlice";
 import { toast } from "sonner";
+import { postRoute, uploadPost } from "../../store/storeSlice/postSlice";
+import type { AppDispatch } from "../../store/store";
 
 export interface PostProps {
   profilePicture: string;

@@ -11,9 +11,9 @@ import {
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import CaptionText from "./CaptionText";
-import type { PostProp } from "./propTypes/postTypes";
-import { formatMessageTime } from "../utils/TImeFormatter";
 import ImageSlider from "./ImageSlider";
+import type { PostProp } from "../propTypes/postTypes";
+import { formatMessageTime } from "../../utils/TImeFormatter";
 
 type postProps = {
   post: PostProp;

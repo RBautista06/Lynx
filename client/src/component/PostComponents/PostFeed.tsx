@@ -1,13 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
-import { userAuth } from "../store/storeSlice/authSlice";
 import CreatePost from "./CreatePost.tsx";
 import Post from "./Post.tsx";
 // import type { PostProp } from "./propTypes/postTypes.tsx";
-import { getPosts, postRoute } from "../store/storeSlice/postSlice.ts";
 import { useEffect } from "react";
-import type { AppDispatch } from "../store/store.ts";
 import { toast } from "sonner";
-import PostSkeleton from "./skeletons/PostSkeleton.tsx";
+import { userAuth } from "../../store/storeSlice/authSlice.ts";
+import PostSkeleton from "../skeletons/PostSkeleton.tsx";
+import type { AppDispatch } from "../../store/store.ts";
+import { getPosts, postRoute } from "../../store/storeSlice/postSlice.ts";
 const PostFeed = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { user } = useSelector(userAuth);

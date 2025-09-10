@@ -1,5 +1,5 @@
 import ActiveUsers from "../component/ActiveUsers";
-import PostFeed from "../component/PostFeed";
+import PostFeed from "../component/PostComponents/PostFeed";
 import Sidebar from "../component/Sidebar";
 
 const Homepage = () => {
