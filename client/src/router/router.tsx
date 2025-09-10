@@ -7,6 +7,7 @@ import AuthRoute from "../component/routeGuard/AuthRoute";
 import ProtectRoute from "../component/routeGuard/ProtectRoute";
 import ProfilePage from "../pages/ProfilePage";
 import EditProfile from "../pages/EditProfile";
+import MessagesPage from "../pages/MessagesPage";
 
 const router = createBrowserRouter([
   {
@@ -50,6 +51,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectRoute>
             <EditProfile />
+          </ProtectRoute>
+        ),
+      },
+      {
+        path: "messages",
+        element: (
+          <ProtectRoute>
+            <MessagesPage />
           </ProtectRoute>
         ),
       },

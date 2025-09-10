@@ -101,7 +101,7 @@ const CreatePost = (props: PostProps) => {
         <form onSubmit={handleSubmit}>
           <div className="fixed inset-0 bg-base-300/80 bg-opacity-50 flex justify-center items-center z-50 ">
             <div
-              className="w-full max-w-xl p-5  rounded-lg bg-base-100 shadow-lg flex flex-col gap-3 relative mt-10 mb-10 max-h-[90vh] overflow-y-auto"
+              className="w-full max-w-xl p-5  rounded-lg bg-base-100 shadow-lg flex flex-col gap-3 relative mt-10 mb-10 max-h-[90vh] overflow-y-auto "
               style={{
                 scrollbarWidth: "none", // Firefox
                 msOverflowStyle: "none", // IE 10+
