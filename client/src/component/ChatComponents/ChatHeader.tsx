@@ -8,7 +8,7 @@ interface chatHeaderProps {
 
 const ChatHeader = ({ fullName, username, profilePic }: chatHeaderProps) => {
   return (
-    <div className="py-3 px-4 rounded-lg flex justify-between items-center bg-base-300">
+    <div className="py-3 px-4 flex justify-between items-center bg-base-300 shadow-2xl">
       {/* Reciever Details */}
       <div className="flex gap-4 items-center">
         <div className="size-12 rounded-full overflow-hidden">
