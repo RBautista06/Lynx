@@ -59,6 +59,15 @@ export const getMessages = createAsyncThunk(
   }
 );
 
+export const sendMessage = createAsyncThunk(
+  "message/send/:id",
+  async (messageData: { text: string; image: string }, { rejectWithValue }) => {
+    try {
+      const res = await axiosInstance.post("/messages/send/:", messageData);
+    } catch (error: any) {}
+  }
+);
+
 const messageSlice = createSlice({
   name: "messages",
   initialState,
