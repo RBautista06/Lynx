@@ -55,7 +55,7 @@ const ProfilePage = () => {
                     </div>
                   </div>
                 </div>
-                {/* user posts ss*/}
+                {/* user postss ss*/}
               </div>
               <div className="border h-100">posts here</div>
             </div>
