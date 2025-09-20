@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+8import { useSelector } from "react-redux";
 import ActiveUsers from "../component/ActiveUsers";
 import Sidebar from "../component/Sidebar";
 import { userAuth } from "../store/storeSlice/authSlice";
@@ -55,7 +55,7 @@ const ProfilePage = () => {
                     </div>
                   </div>
                 </div>
-                {/* user postss ss*/}
+                {/* user postssss*/}
               </div>
               <div className="border h-100">posts here</div>
             </div>
