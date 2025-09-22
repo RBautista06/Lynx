@@ -77,7 +77,7 @@ const SignupPage = () => {
 
             <div className="px-5 rounded-xl ">
               <form className="space-y-2" onSubmit={handleSubmit}>
-                {/* Full Names */}
+                {/* Full Namess */}
                 <div className="space-y-2">
                   <label className="text-sm font-['GeneralSans-Medium'] leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                     Full Name
