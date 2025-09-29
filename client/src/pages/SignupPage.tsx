@@ -97,7 +97,7 @@ const SignupPage = () => {
                   </div>
                 </div>
 
-                {/* Username */}
+                {/* Username e*/}
                 <div className="space-y-2">
                   <label className="text-sm font-['GeneralSans-Medium'] leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                     Username
