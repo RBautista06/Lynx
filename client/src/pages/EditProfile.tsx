@@ -15,7 +15,7 @@ const EditProfile = () => {
   const [profilePic, setProfilePic] = useState<string | null>("");
   const [selectedFile, setSelectedFile] = useState<string | null>(null);
 
-  //this is for disabling the button when their is no input modified
+  // this is for disabling the button when their is no input modified
   const [originalData, setOriginalData] = useState({
     fullName: "",
     bio: "",
