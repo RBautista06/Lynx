@@ -30,7 +30,7 @@ const LoginPage = () => {
     if (login.fulfilled.match(resultAction)) {
       setFormData({ emailOrUsername: "", password: "" });
       toast.success("Logged In successfully");
-      navigate("/"); // ✅ redirect
+      navigate("/"); // ✅ redirectr
     } else if (login.rejected.match(resultAction)) {
       toast.error(error);
     }
